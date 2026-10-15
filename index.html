@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lúmela — Lámparas 3D</title>
+<meta name="description" content="Lámparas minimalistas impresas en 3D. Hechas en Santiago, con envío a regiones.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Sora:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0a; --bg2:#111; --bg3:#181818;
+  --fg:#ece8e4; --mute:#8b8782; --line:rgba(255,255,255,.08);
+  --or:#e07a55; --or2:#f0a07f;
+  --gut:clamp(16px,4vw,56px);
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+h1,h2,h3{font-family:Sora,sans-serif;font-weight:300;letter-spacing:-.03em;line-height:1.02;text-wrap:balance}
+.o{color:var(--or)}
+.wrap{max-width:1360px;margin:0 auto;padding:0 var(--gut)}
+.eyebrow{font:500 11px/1 Inter;letter-spacing:.28em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--or)}
+.wide{font-family:Montserrat,sans-serif;font-weight:400;letter-spacing:.32em;text-transform:uppercase}
+
+/* logo */
+.logo{font:300 17px/1 Montserrat,sans-serif;letter-spacing:.42em;margin-right:-.42em}
+.logo b{color:var(--or);font-weight:400}
+
+/* nav */
+nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
+nav.solid{background:rgba(10,10,10,.82);backdrop-filter:blur(14px);border-color:var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+nav ul{display:flex;gap:36px;list-style:none;font-size:13px;color:var(--mute)}
+nav ul a{transition:color .2s}
+nav ul a:hover{color:var(--fg)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font:500 13px/1 Inter;letter-spacing:.04em;transition:all .3s var(--ease);white-space:nowrap}
+.btn-or{background:var(--or);color:#0a0a0a}
+.btn-or:hover{background:var(--fg);transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--or);color:var(--or)}
+.btn-sm{padding:10px 18px}
+@media(max-width:860px){nav ul{display:none}}
+
+/* hero */
+.hero{min-height:min(100svh,1000px);display:grid;grid-template-columns:1fr 1fr;position:relative}
+.hero-txt{display:flex;flex-direction:column;justify-content:center;padding:120px var(--gut) 80px max(var(--gut),calc((100vw - 1360px)/2 + var(--gut)))}
+.hero h1{font-size:clamp(56px,8.4vw,140px);margin:28px 0 30px}
+.hero p{max-width:420px;color:var(--mute);font-size:17px}
+.hero .cta{display:flex;gap:12px;margin-top:40px;flex-wrap:wrap}
+.hero-img{position:relative;overflow:hidden}
+.hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);animation:zoom 2.4s var(--ease) forwards}
+.hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 0%,rgba(10,10,10,0) 30%),linear-gradient(0deg,rgba(10,10,10,.6),transparent 30%)}
+.hero-img .cap{position:absolute;right:var(--gut);bottom:32px;z-index:2;text-align:right}
+.hero-img .cap small{display:block;font-size:10px;letter-spacing:.3em;color:var(--mute);text-transform:uppercase;margin-bottom:6px}
+.hero-img .cap span{font-size:14px}
+@keyframes zoom{to{transform:scale(1)}}
+
+/* marquee */
+.marquee{border-block:1px solid var(--line);overflow:hidden;padding:22px 0;white-space:nowrap}
+.marquee div{display:inline-flex;gap:48px;animation:mq 40s linear infinite;font:300 clamp(18px,2.2vw,28px)/1 Sora;color:var(--mute)}
+.marquee span::after{content:"●";color:var(--or);font-size:.4em;vertical-align:middle;margin-left:48px}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+section{padding:clamp(90px,12vw,160px) 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:64px;flex-wrap:wrap}
+.head h2{font-size:clamp(40px,6vw,84px);margin-top:22px}
+.head p{max-width:360px;color:var(--mute)}
+
+/* collection */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,1.6vw,24px)}
+.card{display:flex;flex-direction:column;cursor:pointer}
+.card .ph{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--bg3)}
+.card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .8s var(--ease),transform 1.2s var(--ease)}
+.card .ph img.b{opacity:0}
+.card:hover .ph img{transform:scale(1.05)}
+.card:hover .ph img.b{opacity:1}
+.card .badge{position:absolute;top:14px;left:14px;z-index:2;font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:7px 11px;border-radius:99px;background:rgba(10,10,10,.7);backdrop-filter:blur(6px)}
+.card .badge.or{background:var(--or);color:#0a0a0a}
+.card .info{padding:18px 2px 0;display:flex;justify-content:space-between;align-items:start;gap:10px}
+.card h3{font:400 15px/1.3 Montserrat;letter-spacing:.3em}
+.card .dims{font-size:12px;color:var(--mute);margin-top:6px}
+.card .price{font-size:15px;white-space:nowrap}
+.card .price.c{color:var(--mute);font-size:13px}
+.card.custom .ph{background:var(--or);display:flex;flex-direction:column;justify-content:space-between;padding:28px;color:#0a0a0a}
+.card.custom h3{font:300 clamp(28px,2.6vw,40px)/1.05 Sora;letter-spacing:-.03em}
+.card.custom p{font-size:14px;max-width:220px}
+.card.custom .arr{font:300 44px/1 Sora;transition:transform .4s var(--ease)}
+.card.custom:hover .arr{transform:translateX(10px)}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+.grid>*{min-width:0}
+.prog{display:none}
+
+/* ambientes */
+.amb{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:clamp(12px,1.6vw,24px)}
+.amb figure{position:relative;overflow:hidden;background:var(--bg3)}
+.amb figure img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.amb figure:hover img{transform:scale(1.04)}
+.amb .tall{grid-row:span 2}
+.amb figcaption{position:absolute;left:18px;bottom:16px;font:400 11px Montserrat;letter-spacing:.3em;text-transform:uppercase;text-shadow:0 1px 10px #000}
+.amb .quote{grid-column:2/4;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,4vw,60px) 0 clamp(20px,4vw,60px) clamp(0px,2vw,30px)}
+.amb .quote h2{font-size:clamp(36px,4.6vw,68px);margin-top:22px}
+.amb .quote p{color:var(--mute);max-width:420px;margin-top:20px}
+.amb .sq{aspect-ratio:3/4}
+@media(max-width:860px){.amb{grid-template-columns:1fr 1fr}.amb .tall{grid-row:auto;grid-column:span 2;aspect-ratio:4/5}.amb .quote{grid-column:span 2;padding:20px 0}}
+
+/* pedido */
+#pedido{background:var(--bg2);border-block:1px solid var(--line)}
+.conf{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center}
+.stage{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--bg3)}
+.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .25s}
+.stage .tag{position:absolute;left:20px;bottom:20px;z-index:2;font:400 13px Montserrat;letter-spacing:.3em;text-shadow:0 1px 12px #000}
+.opt{border-top:1px solid var(--line);padding:24px 0}
+.opt label{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 16px;border:1px solid var(--line);border-radius:99px;font:400 11px Montserrat;letter-spacing:.2em;transition:.25s}
+.chip:hover{border-color:var(--mute)}
+.chip.act{border-color:var(--or);color:var(--or)}
+.sw{display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border:1px solid var(--line);border-radius:99px;font-size:13px;transition:.25s}
+.sw i{width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.15)}
+.sw:hover{border-color:var(--mute)}
+.sw.act{border-color:var(--or)}
+.qty{display:flex;align-items:center;gap:20px;font:300 24px Sora}
+.qty button{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;font-size:18px;transition:.25s}
+.qty button:hover{border-color:var(--or);color:var(--or)}
+.note{font-size:13px;color:var(--mute);margin-top:12px}
+.note:empty{display:none}
+.total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:28px;gap:20px;flex-wrap:wrap}
+.total strong{font:300 clamp(34px,4vw,48px)/1 Sora;letter-spacing:-.03em}
+.total small{display:block;color:var(--mute);font-size:12px;margin-bottom:6px}
+@media(max-width:900px){.conf{grid-template-columns:1fr}}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.step{border-top:1px solid var(--line);padding-top:30px;position:relative}
+.step::before{content:"";position:absolute;top:-1px;left:0;width:0;height:1px;background:var(--or);transition:width 1.4s var(--ease)}
+.step.in::before{width:60px}
+.step .num{font:200 64px/1 Sora;color:#2a2a2a}
+.step h3{font-size:26px;margin:22px 0 12px}
+.step p{color:var(--mute);font-size:15px}
+@media(max-width:800px){.steps{grid-template-columns:1fr}}
+
+/* manifesto */
+.manifesto{text-align:center;position:relative;overflow:hidden}
+.manifesto h2{font-size:clamp(40px,7.4vw,112px);max-width:1100px;margin:0 auto;position:relative}
+.manifesto h2 .dim{color:#3a3a3a}
+.manifesto::before{content:"";position:absolute;left:50%;bottom:-40%;width:900px;height:900px;max-width:150vw;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(224,122,85,.14),transparent 60%);pointer-events:none}
+
+/* contact */
+.contact{border-top:1px solid var(--line);text-align:center}
+.contact .big{display:inline-block;font:300 clamp(44px,10vw,160px)/1 Sora;letter-spacing:-.05em;margin:30px 0 40px;transition:color .4s}
+.contact .big:hover{color:var(--or)}
+.contact .cta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:30px 0;font-size:12px;color:var(--mute)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+
+/* floating WhatsApp (mobile) */
+.fab{display:none}
+
+/* ===== Celular ===== */
+@media(max-width:900px){
+  .hero{display:flex;flex-direction:column;min-height:100svh}
+  .hero-img{position:relative;aspect-ratio:3/4;max-height:66svh;width:100%;flex:none;order:-1}
+  .hero-img::after{background:linear-gradient(0deg,var(--bg) 0%,rgba(10,10,10,0) 38%),linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,0) 22%)}
+  .hero-img .cap{top:88px;bottom:auto}
+  .hero-txt{position:relative;z-index:2;flex:1;justify-content:flex-end;padding:0 var(--gut) 32px;margin-top:-56px}
+  .hero .eyebrow{color:#d8d3cd;font-size:10px;letter-spacing:.2em;white-space:nowrap}
+  .hero h1{font-size:clamp(52px,15vw,84px);margin:18px 0 14px}
+  .hero p{font-size:15px;color:#b5b1ab}
+  .hero .cta{margin-top:26px;flex-wrap:nowrap}
+  .hero .cta .btn{flex:1;justify-content:center;padding:15px 12px}
+}
+@media(max-width:760px){
+  section{padding:76px 0}
+  .head{margin-bottom:30px;gap:14px}
+  .head h2{font-size:clamp(40px,12vw,56px);margin-top:16px}
+  .head p{font-size:15px}
+  .marquee{padding:16px 0}
+  /* colección como carrusel deslizable */
+  .grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:0 calc(-1*var(--gut));padding:0 var(--gut);scroll-padding:0 var(--gut);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .grid::-webkit-scrollbar{display:none}
+  .grid>.card{flex:0 0 76%;scroll-snap-align:start}
+  .grid .rv{opacity:1;transform:none}
+  .card h3{font-size:14px}
+  .prog{display:block;height:1px;background:var(--line);margin-top:26px;position:relative}
+  .prog i{position:absolute;left:0;top:0;height:1px;width:20%;background:var(--or);transition:left .15s linear}
+  .swipe{display:flex!important}
+  /* ambientes */
+  .amb .quote h2{font-size:clamp(34px,10vw,46px)}
+  .amb .quote p{font-size:15px}
+  /* pedido */
+  .stage{aspect-ratio:4/3}
+  .opt{padding:20px 0}
+  .total .btn{flex:1;justify-content:center}
+  /* proceso compacto */
+  .steps{gap:0}
+  .step{display:grid;grid-template-columns:58px 1fr;padding:24px 0}
+  .step .num{font-size:30px;grid-row:span 2;color:#3a3a3a}
+  .step h3{font-size:22px;margin:0 0 6px}
+  .manifesto h2{font-size:clamp(28px,8.2vw,44px);line-height:1.12}
+  .manifesto h2 .dim{display:block}
+  .hero .eyebrow{white-space:normal}
+  .contact .big{font-size:clamp(44px,14vw,64px);margin:22px 0 30px}
+  footer .wrap{flex-direction:column;align-items:flex-start;gap:10px}
+  footer{padding-bottom:96px}
+  .fab{display:grid;place-items:center;position:fixed;right:16px;bottom:16px;z-index:60;width:58px;height:58px;border-radius:50%;background:var(--or);color:#0a0a0a;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 6px rgba(224,122,85,.15);transform:scale(0);transition:transform .4s var(--ease)}
+  .fab.show{transform:scale(1)}
+  .fab svg{width:26px;height:26px}
+}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.hero-img img{transform:none}}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a href="#" class="logo">LÚM<b>E</b>LA</a>
+    <ul>
+      <li><a href="#coleccion">Colección</a></li>
+      <li><a href="#ambientes">Ambientes</a></li>
+      <li><a href="#pedido">Pedido</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a href="#pedido" class="btn btn-or btn-sm">Pedir la tuya</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-txt">
+    <div class="eyebrow rv">Lámparas impresas en 3D · Santiago</div>
+    <h1 class="rv">Luz que<br>transforma<span class="o">.</span></h1>
+    <p class="rv">Lámparas de diseño limpio y simple, impresas capa por capa para dar calidez a tu hogar. Envío a todo Chile.</p>
+    <div class="cta rv">
+      <a href="#coleccion" class="btn btn-or">Ver colección →</a>
+      <a href="#pedido" class="btn btn-ghost">Hacer un pedido</a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img src="img/ardo1.jpg" alt="Lámpara Ardo Kopa naranja encendida">
+    <div class="cap"><small>Modelo</small><span class="wide">Ardo Kopa</span></div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true"><div id="mq"></div></div>
+
+<section id="coleccion">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow rv">Primer drop</div><h2 class="rv">La colección<span class="o">.</span></h2></div>
+      <p class="rv">Distintas formas y atmósferas, una misma intención: iluminar tu espacio de una manera completamente diferente.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="prog"><i id="progBar"></i></div>
+    <div class="swipe" style="display:none;justify-content:space-between;margin-top:14px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)"><span id="progN">01 / 08</span><span>Desliza →</span></div>
+  </div>
+</section>
+
+<section id="ambientes" style="padding-top:0">
+  <div class="wrap">
+    <div class="amb">
+      <figure class="tall rv"><img src="img/koru.jpg" alt="Lámpara Koru en un living de noche" loading="lazy"><figcaption>Koru</figcaption></figure>
+      <div class="quote rv">
+        <div class="eyebrow">Ambientes</div>
+        <h2>La luz también<br>puede sentirse<span class="o">.</span></h2>
+        <p>Líneas suaves, luz cálida y una atmósfera que invita a bajar el ritmo. Para noches de lectura, el velador o largas jornadas de trabajo.</p>
+      </div>
+      <figure class="sq rv"><img src="img/boofa1.jpg" alt="Lámpara Boofa en un escritorio" loading="lazy"><figcaption>Boofa</figcaption></figure>
+      <figure class="sq rv"><img src="img/drop4.jpg" alt="Lámpara Cumulis sobre un mueble de madera" loading="lazy"><figcaption>Cumulis</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="pedido">
+  <div class="wrap">
+    <div class="head">
+      <div><div class="eyebrow rv">Pedido</div><h2 class="rv">Elige la<br>tuya<span class="o">.</span></h2></div>
+      <p class="rv">Elige modelo y color, y coordinamos por WhatsApp la entrega en Santiago o el envío a regiones.</p>
+    </div>
+    <div class="conf">
+      <div class="stage rv">
+        <img id="stImg" src="img/ardo1.jpg" alt="">
+        <span class="tag" id="stTag">ARDO KOPA</span>
+      </div>
+      <div class="rv">
+        <div class="opt"><label>Modelo</label><div class="chips" id="optModel"></div></div>
+        <div class="opt"><label>Color</label><div class="chips" id="optColor"></div><div class="note" id="colorNote"></div></div>
+        <div class="opt"><label>Cantidad</label><div class="qty"><button id="qm" aria-label="Menos">−</button><span id="qn">1</span><button id="qp" aria-label="Más">+</button></div></div>
+        <div class="total">
+          <div><small id="totLbl">Total</small><strong id="price">$0</strong></div>
+          <a class="btn btn-or" id="wa" target="_blank" rel="noopener">Pedir por WhatsApp →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="wrap">
+    <div class="head"><div><div class="eyebrow rv">Cómo funciona</div><h2 class="rv">Capa por capa<span class="o">.</span></h2></div></div>
+    <div class="steps">
+      <div class="step rv"><div class="num">01</div><h3>Eliges</h3><p>Escoge tu modelo y uno de sus colores disponibles, y haz tu pedido por WhatsApp.</p></div>
+      <div class="step rv"><div class="num">02</div><h3>Imprimimos</h3><p>Cada pantalla se imprime en 3D en Santiago, capa por capa, y se revisa a mano. Incluye cableado E27.</p></div>
+      <div class="step rv"><div class="num">03</div><h3>Enciendes</h3><p>Entrega previa coordinación en Santiago y envío a regiones. Llega lista para iluminar tu espacio.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="manifesto">
+  <div class="wrap">
+    <h2 class="rv"><span class="dim">Ilumina cada rincón.<br>Transforma tu espacio.</span><br><span class="o">Transfórmate.</span></h2>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="wrap">
+    <div class="eyebrow rv" style="justify-content:center">Síguenos y escríbenos</div>
+    <a href="https://instagram.com/lumela.cl" target="_blank" rel="noopener" class="big rv">@lum<span class="o">e</span>la.cl</a>
+    <div class="cta rv">
+      <a href="https://instagram.com/lumela.cl" target="_blank" rel="noopener" class="btn btn-ghost">Instagram</a>
+      <a href="#" id="wa2" target="_blank" rel="noopener" class="btn btn-or">WhatsApp →</a>
+    </div>
+  </div>
+</section>
+
+<a class="fab" id="fab" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"/></svg></a>
+
+<footer>
+  <div class="wrap">
+    <span class="logo" style="font-size:13px">LÚM<b>E</b>LA</span>
+    <span>© 2026 Lúmela · Lámparas impresas en 3D · Hecho en Chile</span>
+  </div>
+</footer>
+
+<script>
+// ===== Datos de la tienda (editar aquí) =====
+const WHATSAPP = "56900000000"; // ← reemplazar por el número real (sin + ni espacios)
+
+const COLORS = {
+  naranja: {name:"Naranja",      hex:"#e8742f"},
+  blanco:  {name:"Blanco",       hex:"#eeeae4"},
+  cafe:    {name:"Café",         hex:"#6b4a36"},
+  amarillo:{name:"Amarillo",     hex:"#e9c46a"},
+  rojo:    {name:"Rojo cobrizo", hex:"#b5452f"},
+  cobre:   {name:"Cobre",        hex:"#b87333"}
+};
+// price: null → "Consultar" · colors: null → todos, a consultar
+const MODELS = [
+  {name:"Ardo Kopa", dims:"24 × 17 cm", price:15900, img:["ardo1","ardo2"],  colors:null},
+  {name:"Boofa",     dims:"28 × 24 cm", price:17900, img:["boofa2","boofa4"], colors:null},
+  {name:"Koru",      dims:"25 × 20 cm", price:17900, img:["drop2","koru"],    colors:["naranja","cafe","blanco"]},
+  {name:"Onda",      dims:"24 × 17 cm", price:13900, img:["onda"],            colors:["naranja","blanco","cafe","amarillo","rojo"], badge:"Stock limitado"},
+  {name:"Mush Mini", dims:"18 cm",      price:null,  img:["mush"],            colors:["cobre","rojo","blanco"], badge:"Nuevo"},
+  {name:"Cumulis",   dims:"",           price:null,  img:["drop4"],           colors:null},
+  {name:"Nordic",    dims:"",           price:null,  img:["drop5"],           colors:null}
+];
+
+const $ = id => document.getElementById(id);
+const clp = v => "$"+v.toLocaleString("es-CL");
+const wa = msg => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+
+// Marquee
+const words = ["Impresión 3D","Hecho en Santiago","Luz cálida","Incluye cableado E27","Envío a regiones","Diseño independiente"];
+$("mq").innerHTML = [...words,...words].map(w=>`<span>${w}</span>`).join("");
+
+// Colección
+$("grid").innerHTML = MODELS.map((m,i)=>`
+  <article class="card rv" data-i="${i}">
+    <div class="ph">
+      ${m.badge?`<span class="badge${m.badge==="Stock limitado"?" or":""}">${m.badge}</span>`:""}
+      <img src="img/${m.img[0]}.jpg" alt="Lámpara ${m.name}" loading="lazy">
+      ${m.img[1]?`<img class="b" src="img/${m.img[1]}.jpg" alt="" loading="lazy">`:""}
+    </div>
+    <div class="info">
+      <div><h3>${m.name.toUpperCase()}</h3>${m.dims?`<div class="dims">${m.dims}</div>`:""}</div>
+      <span class="price${m.price?"":" c"}">${m.price?clp(m.price):"Consultar"}</span>
+    </div>
+  </article>`).join("") + `
+  <a class="card custom rv" href="https://instagram.com/lumela.cl" target="_blank" rel="noopener">
+    <div class="ph"><h3>Nuevos drops cada temporada.</h3><div><p>Síguenos en Instagram para ver los próximos modelos antes que nadie.</p><div class="arr">→</div></div></div>
+  </a>`;
+document.querySelectorAll(".card[data-i]").forEach(c=>c.onclick=()=>{st.model=+c.dataset.i;st.color=null;render();$("pedido").scrollIntoView()});
+
+// Pedido
+const st = {model:0, color:null, qty:1};
+$("optModel").innerHTML = MODELS.map((m,i)=>`<button class="chip" data-i="${i}">${m.name.toUpperCase()}</button>`).join("");
+$("optModel").onclick = e=>{const b=e.target.closest("button");if(b){st.model=+b.dataset.i;st.color=null;render()}};
+$("optColor").onclick = e=>{const b=e.target.closest("button");if(b){st.color=b.dataset.k;render()}};
+$("qm").onclick = ()=>{st.qty=Math.max(1,st.qty-1);render()};
+$("qp").onclick = ()=>{st.qty=Math.min(10,st.qty+1);render()};
+
+function render(){
+  const m = MODELS[st.model];
+  const cols = m.colors || Object.keys(COLORS);
+  if(!st.color || !cols.includes(st.color)) st.color = cols[0];
+  $("optModel").querySelectorAll("button").forEach(b=>b.classList.toggle("act",+b.dataset.i===st.model));
+  $("optColor").innerHTML = cols.map(k=>`<button class="sw${k===st.color?" act":""}" data-k="${k}"><i style="background:${COLORS[k].hex}"></i>${COLORS[k].name}</button>`).join("");
+  $("colorNote").textContent = m.colors ? "" : "Colores a consultar: te confirmamos disponibilidad por WhatsApp.";
+  const img = $("stImg"), src = `img/${m.img[0]}.jpg`;
+  if(img.getAttribute("src")!==src){img.style.opacity=0;setTimeout(()=>{img.src=src;img.alt=`Lámpara ${m.name}`;img.style.opacity=1},250)}
+  $("stTag").textContent = m.name.toUpperCase();
+  $("qn").textContent = st.qty;
+  $("totLbl").textContent = m.price ? "Total" : "Precio";
+  $("price").textContent = m.price ? clp(m.price*st.qty) : "Consultar";
+  const c = COLORS[st.color].name.toLowerCase();
+  $("wa").href = wa(`Hola Lúmela! Quiero ${st.qty>1?st.qty+" lámparas":"una lámpara"} ${m.name.toUpperCase()} en color ${c}.${m.price?` Total ${clp(m.price*st.qty)}.`:" ¿Me cuentan el precio?"}`);
+}
+render();
+$("wa2").href = wa("Hola Lúmela! Quiero consultar por una lámpara.");
+
+// Carrusel (celular): barra de progreso
+const grid = $("grid"), nCards = grid.children.length;
+grid.addEventListener("scroll",()=>{
+  const max = grid.scrollWidth-grid.clientWidth, f = max>0 ? grid.scrollLeft/max : 0;
+  $("progBar").style.left = (f*80)+"%";
+  $("progN").textContent = String(Math.round(f*(nCards-1))+1).padStart(2,"0")+" / "+String(nCards).padStart(2,"0");
+},{passive:true});
+
+// Botón flotante WhatsApp
+$("fab").href = $("wa2").href;
+
+// Nav + reveal
+// (se oculta en colección, pedido y contacto, que ya tienen sus propios controles)
+const nav = $("nav"), fab = $("fab"), busy = new Set();
+const updFab = ()=>fab.classList.toggle("show",scrollY>innerHeight*.7 && !busy.size);
+const fio = new IntersectionObserver(es=>{es.forEach(e=>e.isIntersecting?busy.add(e.target):busy.delete(e.target));updFab()});
+[".swipe","#pedido","#contacto"].forEach(s=>fio.observe(document.querySelector(s)));
+addEventListener("scroll",()=>{nav.classList.toggle("solid",scrollY>40);updFab()},{passive:true});
+const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll(".rv,.step").forEach((el,i)=>{el.style.transitionDelay=(i%4)*80+"ms";io.observe(el)});
+</script>
+</body>
+</html>
