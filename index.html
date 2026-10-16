@@ -214,6 +214,14 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
   .fab svg{width:26px;height:26px}
 }
 
+/* selector de versiones */
+.ver{position:fixed;left:16px;bottom:16px;z-index:70;display:flex;align-items:center;gap:4px;padding:5px;border-radius:99px;background:rgba(20,20,20,.88);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);font:500 11px Montserrat;letter-spacing:.14em;color:#ece8e4}
+.ver span{padding:0 8px 0 10px;color:#8b8782}
+.ver a{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;transition:background .3s,color .3s}
+.ver a:hover{background:rgba(255,255,255,.12)}
+.ver a.on{background:#e07a55;color:#0a0a0a}
+@media(max-width:760px){.ver span{display:none}}
+
 /* reveal */
 .rv{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
 .rv.in{opacity:1;transform:none}
@@ -340,6 +348,8 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
     <span>© 2026 Lúmela · Lámparas impresas en 3D · Hecho en Chile</span>
   </div>
 </footer>
+
+<div class="ver" aria-label="Versiones de diseño"><span>VERSIÓN</span><a href="index.html" class="on">A</a><a href="v2.html">B</a><a href="v3.html">C</a></div>
 
 <script>
 // ===== Datos de la tienda (editar aquí) =====
