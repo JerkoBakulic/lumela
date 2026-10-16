@@ -214,18 +214,20 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
   .fab svg{width:26px;height:26px}
 }
 
-/* selector de versiones */
-.ver{position:fixed;left:16px;bottom:16px;z-index:70;display:flex;align-items:center;gap:4px;padding:5px;border-radius:99px;background:rgba(20,20,20,.88);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);font:500 11px Montserrat;letter-spacing:.14em;color:#ece8e4}
-.ver span{padding:0 8px 0 10px;color:#8b8782}
-.ver a{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;transition:background .3s,color .3s}
-.ver a:hover{background:rgba(255,255,255,.12)}
-.ver a.on{background:#e07a55;color:#0a0a0a}
-@media(max-width:760px){.ver span{display:none}}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(30px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
 .rv.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.hero-img img{transform:none}}
+
+/* botón de versiones de diseño */
+.nr{display:flex;align-items:center;gap:10px}
+.vbtn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:99px;border:1px solid rgba(255,255,255,.14);color:#ece8e4;font:500 11px/1 Montserrat,sans-serif;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;transition:border-color .3s,color .3s,background .3s}
+.vbtn b{font-weight:500;letter-spacing:0;font-size:13px}
+.vbtn svg{width:16px;height:16px;transition:transform .5s cubic-bezier(.2,.7,.1,1)}
+.vbtn:hover{border-color:#e07a55;color:#e07a55}
+.vbtn:hover svg{transform:rotate(-180deg)}
+@media(max-width:760px){.vbtn{padding:0 11px;gap:6px}.vbtn .vl{display:none}.nr{gap:8px}}
 </style>
 </head>
 <body>
@@ -239,7 +241,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
       <li><a href="#pedido">Pedido</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
-    <a href="#pedido" class="btn btn-or btn-sm">Pedir la tuya</a>
+    <div class="nr"><a class="vbtn" href="v2.html" title="Cambiar a la versión B" aria-label="Versión A. Cambiar a la versión B"><span class="vl">Versión</span><b>A</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h13a5 5 0 0 1 0 10h-3"/></svg></a><a href="#pedido" class="btn btn-or btn-sm">Pedir la tuya</a></div>
   </div>
 </nav>
 
@@ -349,7 +351,6 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:2
   </div>
 </footer>
 
-<div class="ver" aria-label="Versiones de diseño"><span>VERSIÓN</span><a href="index.html" class="on">A</a><a href="v2.html">B</a><a href="v3.html">C</a></div>
 
 <script>
 // ===== Datos de la tienda (editar aquí) =====
